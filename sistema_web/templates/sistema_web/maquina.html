@@ -1,0 +1,17 @@
+{% extends "sistema_web/base.html" %}
+{% block conteudo %}
+<h2>{{ maquina.hostname }}</h2>
+<p>CPU: {{ maquina.modelo_cpu }}</p>
+<p>SO: {{ maquina.nome_sistema_operacional }} {{ maquina.versao_sistema_operacional }}</p>
+<p>RAM Total: {{ maquina.total_ram_gb }} GB</p>
+<p><a href="/web/maquinas/{{ maquina.id }}/configuracao/">Configuração energética</a></p>
+<canvas id="graficoConsumo" width="400" height="120"></canvas>
+<script>
+const labels = [{% for t in telemetrias %}"{{ t.coletado_em|date:'H:i:s' }}",{% endfor %}];
+const consumo = [{% for c in consumos %}{{ c }},{% endfor %}];
+new Chart(document.getElementById('graficoConsumo'), {
+  type: 'line',
+  data: { labels, datasets: [{ label: 'Consumo estimado (W)', data: consumo, borderColor: '#1d4ed8' }] }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "sistema_web/base.html" %}
+{% block conteudo %}
+<h2>Dashboard</h2>
+<ul>
+  <li>Máquinas online: {{ online }}</li>
+  <li>Máquinas offline: {{ offline }}</li>
+  <li>Consumo atual: {{ consumo_total_atual }} W</li>
+  <li>Consumo médio: {{ consumo_medio }} W</li>
+</ul>
+<h3>Ranking</h3>
+<ol>
+  {% for maquina, consumo in ranking %}<li>{{ maquina.hostname }} - {{ consumo|floatformat:2 }} W</li>{% empty %}<li>Sem dados</li>{% endfor %}
+</ol>
+<h3>Máquinas</h3>
+<ul>
+  {% for maquina in maquinas %}
+  <li><a href="/web/maquinas/{{ maquina.id }}/">{{ maquina.hostname }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
