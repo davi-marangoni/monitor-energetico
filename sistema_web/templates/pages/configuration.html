@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Configuração Energética - Monitor Energético{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/configuration.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="configuration">
+    <h1>Configuração Energética - {{ machine.hostname }}</h1>
+    
+    <div class="config-form">
+        <form method="post" class="energy-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="tdp">TDP da CPU (Watts)</label>
+                <input type="number" id="tdp" name="tdp_cpu_watts" value="{{ config.tdp_cpu_watts }}" step="0.1" required>
+                <p class="help-text">Potência térmica do processador</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="idle_factor">Fator Idle (α)</label>
+                <input type="number" id="idle_factor" name="fator_idle_alpha" value="{{ config.fator_idle_alpha }}" min="0" max="1" step="0.01" required>
+                <p class="help-text">Fator de inatividade (0 a 1), típico 0.3</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="ram_consumption">Consumo por GB de RAM (Watts)</label>
+                <input type="number" id="ram_consumption" name="consumo_ram_por_gb" value="{{ config.consumo_ram_por_gb }}" step="0.1" required>
+                <p class="help-text">Consumo de energia por GB de RAM</p>
+            </div>
+            
+            <div class="form-group checkbox">
+                <input type="checkbox" id="ativo" name="ativo" {% if config.ativo %}checked{% endif %}>
+                <label for="ativo">Ativo</label>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">Salvar Configuração</button>
+                <a href="/maquinas/{{ machine.id }}/" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="calculation-example">
+        <h2>Exemplo de Cálculo</h2>
+        <p>Com os parâmetros configurados:</p>
+        
+        <div class="formula">
+            <h3>Fórmula - Consumo da CPU:</h3>
+            <p>Consumo_CPU = TDP × (α + (1 − α) × Uso_CPU / 100)</p>
+            <p>Consumo_CPU = {{ config.tdp_cpu_watts }} × ({{ config.fator_idle_alpha }} + (1 − {{ config.fator_idle_alpha }}) × Uso_CPU / 100)</p>
+        </div>
+        
+        <div class="formula">
+            <h3>Fórmula - Consumo da RAM:</h3>
+            <p>Consumo_RAM = RAM_Utilizada × Consumo_Por_GB</p>
+            <p>Consumo_RAM = RAM_Utilizada × {{ config.consumo_ram_por_gb }}</p>
+        </div>
+        
+        <div class="formula">
+            <h3>Fórmula - Consumo Total:</h3>
+            <p>Consumo_Total = Consumo_CPU + Consumo_RAM</p>
+        </div>
+    </div>
+    
+    <div class="history-table">
+        <h2>Histórico de Configurações</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data de Criação</th>
+                    <th>TDP (W)</th>
+                    <th>Fator Idle</th>
+                    <th>Consumo RAM/GB</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ config.criado_em|date:"d/m/Y H:i" }}</td>
+                    <td>{{ config.tdp_cpu_watts }}</td>
+                    <td>{{ config.fator_idle_alpha }}</td>
+                    <td>{{ config.consumo_ram_por_gb }}</td>
+                    <td>{% if config.ativo %}Ativo{% else %}Inativo{% endif %}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="{% static 'js/configuration.js' %}"></script>
+{% endblock %}
