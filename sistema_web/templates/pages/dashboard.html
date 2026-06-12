@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Monitor Energético{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>Dashboard</h1>
+    
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>Máquinas Online</h3>
+            <p class="stat-value">{{ machines_online }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Máquinas Offline</h3>
+            <p class="stat-value">{{ machines_offline }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Consumo Atual</h3>
+            <p class="stat-value">{{ current_consumption }}W</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Consumo Médio</h3>
+            <p class="stat-value">{{ average_consumption }}W</p>
+        </div>
+    </div>
+    
+    <div class="charts-container">
+        <div class="chart-box">
+            <h2>Consumo por Máquina (Top 5)</h2>
+            <canvas id="machinesChart"></canvas>
+        </div>
+        
+        <div class="chart-box">
+            <h2>Consumo Energético Geral</h2>
+            <canvas id="consumptionChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="machines-ranking">
+        <h2>Ranking de Máquinas por Consumo</h2>
+        <table class="ranking-table">
+            <thead>
+                <tr>
+                    <th>Máquina</th>
+                    <th>Hostname</th>
+                    <th>CPU %</th>
+                    <th>RAM (GB)</th>
+                    <th>Consumo (W)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for machine_data in ranking %}
+                <tr>
+                    <td><a href="/maquinas/{{ machine_data.id }}/">{{ machine_data.nome }}</a></td>
+                    <td>{{ machine_data.hostname }}</td>
+                    <td>{{ machine_data.cpu_usage }}%</td>
+                    <td>{{ machine_data.ram_usage }}</td>
+                    <td>{{ machine_data.consumption }}W</td>
+                    <td class="status {% if machine_data.online %}online{% else %}offline{% endif %}">
+                        {% if machine_data.online %}Online{% else %}Offline{% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">Nenhuma máquina registrada</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

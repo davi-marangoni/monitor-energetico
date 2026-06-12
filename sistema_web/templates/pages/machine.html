@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ machine.hostname }} - Monitor Energético{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/machine.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="machine-detail">
+    <h1>{{ machine.hostname }}</h1>
+    
+    <div class="machine-info">
+        <div class="info-section">
+            <h2>Informações da Máquina</h2>
+            <table class="info-table">
+                <tr>
+                    <th>Hostname:</th>
+                    <td>{{ machine.hostname }}</td>
+                </tr>
+                <tr>
+                    <th>ID da Máquina:</th>
+                    <td>{{ machine.machine_id_linux }}</td>
+                </tr>
+                <tr>
+                    <th>CPU:</th>
+                    <td>{{ machine.modelo_cpu }}</td>
+                </tr>
+                <tr>
+                    <th>RAM Total:</th>
+                    <td>{{ machine.total_ram_gb }} GB</td>
+                </tr>
+                <tr>
+                    <th>Sistema Operacional:</th>
+                    <td>{{ machine.nome_sistema_operacional }} {{ machine.versao_sistema_operacional }}</td>
+                </tr>
+                <tr>
+                    <th>Intervalo de Coleta:</th>
+                    <td>{{ machine.intervalo_coleta_segundos }} segundos</td>
+                </tr>
+                <tr>
+                    <th>Último Ping:</th>
+                    <td>{{ machine.ultimo_ping_em|date:"d/m/Y H:i" }}</td>
+                </tr>
+                <tr>
+                    <th>Status:</th>
+                    <td class="status {% if machine.online %}online{% else %}offline{% endif %}">
+                        {% if machine.online %}Online{% else %}Offline{% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="current-state">
+            <h2>Estado Atual</h2>
+            <div class="state-grid">
+                <div class="state-item">
+                    <h3>CPU</h3>
+                    <p class="value">{{ current_state.cpu }}%</p>
+                </div>
+                <div class="state-item">
+                    <h3>RAM</h3>
+                    <p class="value">{{ current_state.ram }}%</p>
+                </div>
+                <div class="state-item">
+                    <h3>Consumo Estimado</h3>
+                    <p class="value">{{ current_state.consumption }}W</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="charts-container">
+        <div class="chart-box">
+            <h2>Uso de CPU (Últimas 24h)</h2>
+            <canvas id="cpuChart"></canvas>
+        </div>
+        
+        <div class="chart-box">
+            <h2>Uso de RAM (Últimas 24h)</h2>
+            <canvas id="ramChart"></canvas>
+        </div>
+        
+        <div class="chart-box">
+            <h2>Consumo Energético (Últimas 24h)</h2>
+            <canvas id="consumptionChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="filters">
+        <h2>Filtrar por Período</h2>
+        <div class="filter-buttons">
+            <button class="filter-btn" data-filter="ultima_hora">Última Hora</button>
+            <button class="filter-btn" data-filter="ultimas_24_horas">Últimas 24h</button>
+            <button class="filter-btn" data-filter="ultimos_7_dias">Últimos 7 dias</button>
+            <button class="filter-btn" data-filter="ultimos_30_dias">Últimos 30 dias</button>
+        </div>
+    </div>
+    
+    <div class="machine-actions">
+        <a href="/maquinas/{{ machine.id }}/editar" class="btn btn-primary">Editar</a>
+        <a href="/maquinas/{{ machine.id }}/configuracao" class="btn btn-secondary">Configurar Energia</a>
+    </div>
+</div>
+
+<script src="{% static 'js/machine.js' %}"></script>
+{% endblock %}
