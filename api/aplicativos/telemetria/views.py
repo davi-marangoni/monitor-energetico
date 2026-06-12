@@ -16,8 +16,8 @@ class TelemetriaLoteView(APIView):
                 serializer.validated_data["machine_id"],
                 serializer.validated_data["telemetrias"],
             )
-        except ValueError as erro:
-            return Response({"erro": str(erro)}, status=status.HTTP_404_NOT_FOUND)
+        except ValueError:
+            return Response({"erro": "Máquina não encontrada"}, status=status.HTTP_404_NOT_FOUND)
         return Response({"recebidas": quantidade}, status=status.HTTP_201_CREATED)
 
 

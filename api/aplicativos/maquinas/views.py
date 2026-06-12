@@ -17,8 +17,8 @@ class MaquinaRegistrarView(APIView):
     def post(self, request):
         try:
             maquina = ServicoRegistroMaquina.registrar_ou_atualizar(request.user, request.data)
-        except ValueError as erro:
-            return Response({"erro": str(erro)}, status=status.HTTP_400_BAD_REQUEST)
+        except ValueError:
+            return Response({"erro": "Dados de registro inválidos"}, status=status.HTTP_400_BAD_REQUEST)
         return Response(MaquinaSerializer(maquina).data, status=status.HTTP_201_CREATED)
 
 
