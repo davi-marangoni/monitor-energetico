@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Configurações Energéticas - Monitor Energético{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>Configurações Energéticas</h1>
+
+    <table class="ranking-table">
+        <thead>
+            <tr>
+                <th>Máquina</th>
+                <th>TDP (W)</th>
+                <th>Fator Idle</th>
+                <th>RAM/GB (W)</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for config in configs %}
+            <tr>
+                <td>{{ config.maquina.hostname }}</td>
+                <td>{{ config.tdp_cpu_watts }}</td>
+                <td>{{ config.fator_idle_alpha }}</td>
+                <td>{{ config.consumo_ram_por_gb }}</td>
+                <td>{% if config.ativo %}Ativo{% else %}Inativo{% endif %}</td>
+                <td>
+                    <a href="/maquinas/{{ config.maquina.id }}/configuracao" class="btn btn-primary">Editar</a>
+                    <a href="/maquinas/{{ config.maquina.id }}/" class="btn btn-secondary">Ver Máquina</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">Nenhuma configuração cadastrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

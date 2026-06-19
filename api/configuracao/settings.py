@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     
     # Third-party apps
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     
     # Local apps
@@ -32,7 +33,12 @@ INSTALLED_APPS = [
     'aplicativos.maquinas',
     'aplicativos.telemetria',
     'aplicativos.energia',
+    'aplicativos.interface_web',
 ]
+
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

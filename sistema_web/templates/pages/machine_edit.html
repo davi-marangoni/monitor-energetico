@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Editar {{ machine.hostname }} - Monitor Energético{% endblock %}
+
+{% block content %}
+<div class="configuration">
+    <h1>Editar Máquina - {{ machine.hostname }}</h1>
+
+    <div class="config-form">
+        <form method="post" class="energy-form">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+            </div>
+            {% endfor %}
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a href="/maquinas/{{ machine.id }}/" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

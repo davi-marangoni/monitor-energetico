@@ -36,7 +36,7 @@ class ServicoAgente:
         self.cliente_api = ClienteAPI(
             Configuracao.API_URL,
             username=Configuracao.API_USERNAME,
-            ******
+            password=Configuracao.API_PASSWORD,
             token=Configuracao.API_TOKEN
         )
         
@@ -131,7 +131,7 @@ class ServicoAgente:
                         self.logger.error(f'Erro ao enviar telemetrias: {str(e)}')
                         # Incrementar tentativas
                         for id_telemetria in ids_enviadas:
-                            self.fila.marcar_como_enviado(id_telemetria)
+                            self.fila.incrementar_tentativas(id_telemetria)
                 
                 # Limpar telemetrias antigas
                 try:

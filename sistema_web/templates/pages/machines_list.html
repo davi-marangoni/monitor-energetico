@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Máquinas - Monitor Energético{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>Máquinas Monitoradas</h1>
+
+    <table class="ranking-table">
+        <thead>
+            <tr>
+                <th>Hostname</th>
+                <th>CPU %</th>
+                <th>RAM (GB)</th>
+                <th>Consumo (W)</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for maquina in maquinas %}
+            <tr>
+                <td><a href="/maquinas/{{ maquina.id }}/">{{ maquina.hostname }}</a></td>
+                <td>{% if maquina.cpu_usage %}{{ maquina.cpu_usage }}%{% else %}-{% endif %}</td>
+                <td>{% if maquina.ram_usage %}{{ maquina.ram_usage }}{% else %}-{% endif %}</td>
+                <td>{% if maquina.consumption %}{{ maquina.consumption }}W{% else %}-{% endif %}</td>
+                <td class="status {% if maquina.online %}online{% else %}offline{% endif %}">
+                    {% if maquina.online %}Online{% else %}Offline{% endif %}
+                </td>
+                <td>
+                    <a href="/maquinas/{{ maquina.id }}/editar" class="btn btn-secondary">Editar</a>
+                    <a href="/maquinas/{{ maquina.id }}/configuracao" class="btn btn-primary">Configurar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">Nenhuma máquina registrada. Instale o agente para começar.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

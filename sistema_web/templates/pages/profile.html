@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Perfil - Monitor Energético{% endblock %}
+
+{% block content %}
+<div class="configuration">
+    <h1>Meu Perfil</h1>
+
+    <div class="config-form">
+        <p><strong>Usuário:</strong> {{ user.username }}</p>
+        <p><strong>Máquinas monitoradas:</strong> {{ maquinas_count }}</p>
+
+        <form method="post" class="energy-form">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+            </div>
+            {% endfor %}
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">Salvar Perfil</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

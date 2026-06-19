@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="machine-detail">
+<div class="machine-detail" data-maquina-id="{{ machine.id }}" data-total-ram="{{ machine.total_ram_gb }}">
     <h1>{{ machine.hostname }}</h1>
     
     <div class="machine-info">

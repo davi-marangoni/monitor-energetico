@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="configuration">
+<div class="configuration" data-config-id="{{ config.id }}" data-maquina-id="{{ machine.id }}">
     <h1>Configuração Energética - {{ machine.hostname }}</h1>
     
     <div class="config-form">

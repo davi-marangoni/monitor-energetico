@@ -20,8 +20,8 @@ services:
 
   api:
     build:
-      context: ./api
-      dockerfile: ../docker/Dockerfile
+      context: .
+      dockerfile: docker/Dockerfile
     container_name: monitor_energetico_api_dev
     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     environment:

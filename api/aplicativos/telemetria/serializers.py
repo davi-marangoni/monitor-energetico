@@ -3,8 +3,6 @@ from .models import Telemetria
 
 
 class TelemetriaSerializer(serializers.ModelSerializer):
-    """Serializer para telemetria"""
-    
     class Meta:
         model = Telemetria
         fields = [
@@ -18,9 +16,19 @@ class TelemetriaSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'criado_em']
 
 
+class TelemetriaComConsumoSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    maquina = serializers.IntegerField()
+    percentual_uso_cpu = serializers.FloatField()
+    ram_utilizada_gb = serializers.FloatField()
+    coletado_em = serializers.DateTimeField()
+    criado_em = serializers.DateTimeField()
+    consumo_cpu = serializers.FloatField()
+    consumo_ram = serializers.FloatField()
+    consumo_total = serializers.FloatField()
+
+
 class TelemetriaLoteSerializer(serializers.Serializer):
-    """Serializer para lote de telemetrias enviadas pelo agente"""
-    
     machine_id = serializers.CharField()
     telemetrias = serializers.ListField(
         child=serializers.DictField(

@@ -15,7 +15,7 @@ class MaquinaTestCase(TestCase):
         login_data = {'username': 'testuser', 'password': 'senhaSegura123'}
         login_response = self.client.post('/api/autenticacao/login', login_data, format='json')
         self.token = login_response.data['access']
-        self.client.credentials(HTTP_AUTHORIZATION=f'******')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
     
     def test_registrar_maquina(self):
         """Testa se uma máquina pode ser registrada"""
@@ -29,7 +29,7 @@ class MaquinaTestCase(TestCase):
             'intervalo_coleta_segundos': 60,
             'intervalo_envio_segundos': 300,
         }
-        response = self.client.post('/api/maquinas/registrar', data, format='json')
+        response = self.client.post('/api/maquinas/registrar/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Maquina.objects.filter(machine_id_linux='abc123def456').exists())
     

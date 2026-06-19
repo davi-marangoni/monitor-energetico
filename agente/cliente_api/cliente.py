@@ -11,7 +11,7 @@ from urllib3.util.retry import Retry
 class ClienteAPI:
     """Cliente para comunicação com a API de monitoramento"""
     
-    def __init__(self, url_base, username=None, ****** token=None):
+    def __init__(self, url_base, username=None, password=None, token=None):
         """Inicializa o cliente da API"""
         self.url_base = url_base.rstrip('/')
         self.username = username
@@ -49,14 +49,14 @@ class ClienteAPI:
         """Retorna os headers para requisições"""
         headers = {'Content-Type': 'application/json'}
         if self.token:
-            headers['Authorization'] = f'******'
+            headers['Authorization'] = f'Bearer {self.token}'
         return headers
     
     def registrar_maquina(self, dados_maquina):
         """Registra ou atualiza uma máquina na API"""
         try:
             response = self.session.post(
-                f'{self.url_base}/maquinas/registrar',
+                f'{self.url_base}/maquinas/registrar/',
                 json=dados_maquina,
                 headers=self._obter_headers(),
                 timeout=10
@@ -77,7 +77,7 @@ class ClienteAPI:
             }
             
             response = self.session.post(
-                f'{self.url_base}/telemetrias/lote',
+                f'{self.url_base}/telemetrias/lote/',
                 json=payload,
                 headers=self._obter_headers(),
                 timeout=10
@@ -93,15 +93,21 @@ class ClienteAPI:
         """Obtém a configuração da máquina da API"""
         try:
             response = self.session.get(
-                f'{self.url_base}/maquinas',
+                f'{self.url_base}/maquinas/',
                 headers=self._obter_headers(),
                 params={'machine_id_linux': machine_id},
                 timeout=10
             )
             response.raise_for_status()
-            maquinas = response.json()
+            data = response.json()
+            if isinstance(data, dict) and 'results' in data:
+                maquinas = data['results']
+            elif isinstance(data, list):
+                maquinas = data
+            else:
+                maquinas = [data] if data else []
             if maquinas:
-                return maquinas[0] if isinstance(maquinas, list) else maquinas
+                return maquinas[0]
             return None
         except requests.exceptions.RequestException as e:
             self.logger.error(f'Erro ao obter configuração: {str(e)}')

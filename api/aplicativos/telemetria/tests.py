@@ -16,7 +16,7 @@ class TelemetriaTestCase(TestCase):
         login_data = {'username': 'testuser', 'password': 'senhaSegura123'}
         login_response = self.client.post('/api/autenticacao/login', login_data, format='json')
         self.token = login_response.data['access']
-        self.client.credentials(HTTP_AUTHORIZATION=f'******')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
         
         # Criar máquina
         self.maquina = Maquina.objects.create(
@@ -46,7 +46,7 @@ class TelemetriaTestCase(TestCase):
                 }
             ]
         }
-        response = self.client.post('/api/telemetrias/lote', data, format='json')
+        response = self.client.post('/api/telemetrias/lote/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Telemetria.objects.filter(maquina=self.maquina).count(), 2)
     
@@ -72,6 +72,6 @@ class TelemetriaTestCase(TestCase):
             coletado_em=timezone.now()
         )
         
-        response = self.client.get('/api/telemetrias/historico?filtro=ultimas_24_horas', format='json')
+        response = self.client.get('/api/telemetrias/historico/?filtro=ultimas_24_horas', format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)

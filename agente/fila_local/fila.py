@@ -97,6 +97,24 @@ class FilaLocal:
         except Exception as e:
             raise Exception(f'Erro ao obter telemetrias pendentes: {str(e)}')
     
+    def incrementar_tentativas(self, id):
+        """Incrementa o contador de tentativas de envio"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+
+            cursor.execute('''
+                UPDATE telemetrias
+                SET tentativas = tentativas + 1
+                WHERE id = ?
+            ''', (id,))
+
+            conn.commit()
+            conn.close()
+            return True
+        except Exception as e:
+            raise Exception(f'Erro ao incrementar tentativas: {str(e)}')
+
     def marcar_como_enviado(self, id):
         """Marca uma telemetria como enviada"""
         try:

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Monitor Energético</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Criar Conta</h1>
+            <p class="subtitle">Cadastre-se no Monitor Energético</p>
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username">Usuário</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}<span class="error">{{ form.username.errors.0 }}</span>{% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_email">E-mail</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}<span class="error">{{ form.email.errors.0 }}</span>{% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_first_name">Nome</label>
+                    {{ form.first_name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_last_name">Sobrenome</label>
+                    {{ form.last_name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_password1">Senha</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}<span class="error">{{ form.password1.errors.0 }}</span>{% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_password2">Confirmar Senha</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}<span class="error">{{ form.password2.errors.0 }}</span>{% endif %}
+                </div>
+                <button type="submit" class="btn-login">Cadastrar</button>
+            </form>
+
+            <p class="signup-link">
+                Já tem conta? <a href="/login">Faça login</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -12,6 +12,7 @@ from .serializers import (
     TelemetriaLoteSerializer,
 )
 from aplicativos.maquinas.models import Maquina
+from aplicativos.energia.servicos.servico_dashboard import serializar_telemetria_com_consumo
 
 
 class TelemetriaViewSet(viewsets.ReadOnlyModelViewSet):
@@ -108,6 +109,7 @@ class TelemetriaViewSet(viewsets.ReadOnlyModelViewSet):
         filtro = request.query_params.get('filtro', 'ultimas_24_horas')
         data_inicio = request.query_params.get('data_inicio')
         data_fim = request.query_params.get('data_fim')
+        maquina_id = request.query_params.get('maquina_id')
         
         agora = timezone.now()
         
@@ -129,11 +131,14 @@ class TelemetriaViewSet(viewsets.ReadOnlyModelViewSet):
             data_inicio = agora - timedelta(hours=24)
         
         queryset = self.get_queryset()
+
+        if maquina_id:
+            queryset = queryset.filter(maquina_id=maquina_id)
         
         if data_inicio:
             queryset = queryset.filter(coletado_em__gte=data_inicio)
         if data_fim and filtro == 'personalizado':
             queryset = queryset.filter(coletado_em__lte=data_fim)
         
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        dados = [serializar_telemetria_com_consumo(item) for item in queryset]
+        return Response(dados)

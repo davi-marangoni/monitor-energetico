@@ -1,0 +1,91 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+ENV/
+
+# Variáveis de ambiente (manter .env.example)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Django / API
+api/staticfiles/
+api/media/
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Agente
+agente/fila.db
+agente/fila.db-journal
+agente/*.db
+agente/*.db-journal
+
+# Testes e cobertura
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# IDEs e editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Sistema operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Docker (volumes locais, se houver)
+docker-compose.override.yml
+
+# Jupyter / notebooks
+.ipynb_checkpoints/
+
+# mypy / type checkers
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/

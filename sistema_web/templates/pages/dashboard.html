@@ -61,7 +61,7 @@
             <tbody>
                 {% for machine_data in ranking %}
                 <tr>
-                    <td><a href="/maquinas/{{ machine_data.id }}/">{{ machine_data.nome }}</a></td>
+                    <td><a href="/maquinas/{{ machine_data.id }}/">{{ machine_data.hostname }}</a></td>
                     <td>{{ machine_data.hostname }}</td>
                     <td>{{ machine_data.cpu_usage }}%</td>
                     <td>{{ machine_data.ram_usage }}</td>

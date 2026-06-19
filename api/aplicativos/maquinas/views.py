@@ -25,7 +25,11 @@ class MaquinaViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         """Retorna apenas as máquinas do usuário autenticado"""
-        return Maquina.objects.filter(usuario=self.request.user)
+        queryset = Maquina.objects.filter(usuario=self.request.user)
+        machine_id_linux = self.request.query_params.get('machine_id_linux')
+        if machine_id_linux:
+            queryset = queryset.filter(machine_id_linux=machine_id_linux)
+        return queryset
     
     def perform_create(self, serializer):
         """Associa a máquina ao usuário autenticado"""

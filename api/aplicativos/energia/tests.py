@@ -18,7 +18,7 @@ class ConfiguracaoEnergeticaTestCase(TestCase):
         login_data = {'username': 'testuser', 'password': 'senhaSegura123'}
         login_response = self.client.post('/api/autenticacao/login', login_data, format='json')
         self.token = login_response.data['access']
-        self.client.credentials(HTTP_AUTHORIZATION=f'******')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
         
         # Criar máquina
         self.maquina = Maquina.objects.create(

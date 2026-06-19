@@ -46,7 +46,7 @@ class UsuarioCadastroTestCase(TestCase):
         token = login_response.data['access']
         
         # Usar token para acessar dados do usuário
-        self.client.credentials(HTTP_AUTHORIZATION=f'******')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
         response = self.client.get('/api/autenticacao/me', format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['username'], 'testuser')
