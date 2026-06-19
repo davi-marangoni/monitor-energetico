@@ -13,7 +13,7 @@ class UsuarioCadastroSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         senha = validated_data.pop('senha')
         usuario = User.objects.create_user(
-            ******
+            password=senha,
             **validated_data
         )
         return usuario
