@@ -84,6 +84,7 @@
 .ranking-table td {
     padding: 1rem;
     border-bottom: 1px solid #ecf0f1;
+    vertical-align: middle;
 }
 
 .ranking-table tbody tr:hover {

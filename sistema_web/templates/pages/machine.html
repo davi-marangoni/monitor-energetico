@@ -45,8 +45,10 @@
                 </tr>
                 <tr>
                     <th>Status:</th>
-                    <td class="status {% if machine.online %}online{% else %}offline{% endif %}">
-                        {% if machine.online %}Online{% else %}Offline{% endif %}
+                    <td>
+                        <span class="status {% if machine.online %}online{% else %}offline{% endif %}">
+                            {% if machine.online %}Online{% else %}Offline{% endif %}
+                        </span>
                     </td>
                 </tr>
             </table>

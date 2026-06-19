@@ -56,13 +56,19 @@ header {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    flex: 1;
+    margin: 0;
 }
 
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.nav-menu li {
+    display: flex;
+    align-items: center;
 }
 
 .nav-menu a {
@@ -71,6 +77,8 @@ header {
     padding: 0.5rem 1rem;
     transition: background-color 0.3s;
     border-radius: 4px;
+    line-height: 1.4;
+    white-space: nowrap;
 }
 
 .nav-menu a:hover {
@@ -78,8 +86,10 @@ header {
 }
 
 .nav-logout-form {
-    display: inline;
+    display: flex;
+    align-items: center;
     margin: 0;
+    padding: 0;
 }
 
 .nav-logout-form button {
@@ -91,6 +101,8 @@ header {
     padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: background-color 0.3s;
+    line-height: 1.4;
+    white-space: nowrap;
 }
 
 .nav-logout-form button:hover {
@@ -277,6 +289,19 @@ table th {
 table td {
     padding: 1rem;
     border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.table-actions .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
 }
 
 table tbody tr:hover {

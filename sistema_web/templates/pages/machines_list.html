@@ -25,12 +25,16 @@
                 <td>{% if maquina.cpu_usage %}{{ maquina.cpu_usage }}%{% else %}-{% endif %}</td>
                 <td>{% if maquina.ram_usage %}{{ maquina.ram_usage }}{% else %}-{% endif %}</td>
                 <td>{% if maquina.consumption %}{{ maquina.consumption }}W{% else %}-{% endif %}</td>
-                <td class="status {% if maquina.online %}online{% else %}offline{% endif %}">
-                    {% if maquina.online %}Online{% else %}Offline{% endif %}
+                <td>
+                    <span class="status {% if maquina.online %}online{% else %}offline{% endif %}">
+                        {% if maquina.online %}Online{% else %}Offline{% endif %}
+                    </span>
                 </td>
                 <td>
-                    <a href="/maquinas/{{ maquina.id }}/editar" class="btn btn-secondary">Editar</a>
-                    <a href="/maquinas/{{ maquina.id }}/configuracao" class="btn btn-primary">Configurar</a>
+                    <div class="table-actions">
+                        <a href="/maquinas/{{ maquina.id }}/editar" class="btn btn-secondary">Editar</a>
+                        <a href="/maquinas/{{ maquina.id }}/configuracao" class="btn btn-primary">Configurar</a>
+                    </div>
                 </td>
             </tr>
             {% empty %}

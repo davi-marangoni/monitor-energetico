@@ -66,8 +66,10 @@
                     <td>{{ machine_data.cpu_usage }}%</td>
                     <td>{{ machine_data.ram_usage }}</td>
                     <td>{{ machine_data.consumption }}W</td>
-                    <td class="status {% if machine_data.online %}online{% else %}offline{% endif %}">
-                        {% if machine_data.online %}Online{% else %}Offline{% endif %}
+                    <td>
+                        <span class="status {% if machine_data.online %}online{% else %}offline{% endif %}">
+                            {% if machine_data.online %}Online{% else %}Offline{% endif %}
+                        </span>
                     </td>
                 </tr>
                 {% empty %}
