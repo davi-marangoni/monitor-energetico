@@ -19,7 +19,12 @@
                     <li><a href="/maquinas">Máquinas</a></li>
                     <li><a href="/configuracoes">Configurações</a></li>
                     <li><a href="/perfil">Perfil</a></li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li>
+                        <form method="post" action="{% url 'logout' %}" class="nav-logout-form">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </nav>

@@ -77,6 +77,26 @@ header {
     background-color: var(--secondary-color);
 }
 
+.nav-logout-form {
+    display: inline;
+    margin: 0;
+}
+
+.nav-logout-form button {
+    background: none;
+    border: none;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.nav-logout-form button:hover {
+    background-color: var(--secondary-color);
+}
+
 /* Main Container */
 main.container {
     max-width: 1200px;
